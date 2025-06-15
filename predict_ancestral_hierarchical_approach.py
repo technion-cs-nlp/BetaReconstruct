@@ -23,7 +23,6 @@ def divide_species_to_groups(orders_and_data: Dict[str, List[Tuple[str, str]]], 
     num_seqs_in_dictionary = 0
     for clade, data in orders_and_data.items():
         num_seqs_in_dictionary += len(data)
-    print(f'num_seqs_in_dictionary = {num_seqs_in_dictionary}')
     other_dictionary = {}
     # merge all seqs in order_and_data to other if entire number below 10
     if num_seqs_in_dictionary < 10:
@@ -67,10 +66,6 @@ def run_model_on_group(model, tokenizer, device, group: List[Tuple[str, str]], c
     
     decoded = tokenizer.decode(output.sequences[0]).replace(" ", "")
     prediction = decoded.split("<RECONSTRUCT>")[1].split("|")[0].replace(tokenizer.decode(tokenizer.eos_token_id), "").replace(tokenizer.decode(tokenizer.unk_token_id), "")
-    print(f'x = {input_str}')
-    print()
-    print(f'p = {prediction}')
-    print()
     return "-".join(keys), prediction
 
 def load_species_list(species_list_folder: str) -> Dict[str, List[str]]:
@@ -145,9 +140,7 @@ def main(args):
             prediction = None
             
             while True:
-                print(f'current_level = {current_level}')
                 groups = divide_species_to_groups(current_data, current_level)
-                print(f'len(groups) = {len(groups)}')
                 #print(f'current_data = {current_data}')
                 all_reconstruction_groups[f"reconstruction_groups_{current_level}"] = groups
 

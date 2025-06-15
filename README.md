@@ -6,3 +6,37 @@ Ancestral sequence reconstruction (ASR) is a foundational task in evolutionary b
 
 ![alt text](https://github.com/technion-cs-nlp/BetaReconstruct/blob/main/outline_image.png)
 Illustration of ASR prediction using BetaReconstruct. (a): Consider the evolution of the sequence “AAMM”, to the proteins: “AAM”, “AYM” and “ATMMM”. (b) BetaReconstruct pipeline. (Ⅰ): The input to the model, unaligned protein sequences; (Ⅱ): The protein sequences are concatenated with special characters between; (Ⅲ): The model processes the input and predicts the output, which is the ancestral sequence (Ⅳ).
+
+
+
+## Hierarchical Ancestral Sequence Reconstruction
+This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated.
+
+### Overview
+The method uses a grouping strategy to divide sequences into manageable groups, generating intermediate ancestral sequences at each level using a causal language model. This continues hierarchically until a single root ancestor is reconstructed.
+
+The script supports FASTA files as input and expects species groupings in text format. Output is saved in JSON format containing group information and the final prediction.
+
+#### Input Requirements
+1. FASTA Files
+ - Each fasta file should contain multiple sequences for one gene or family.
+ - Filenames should follow the format FAMILY_NAME.fasta.
+
+2. Species List Folder
+ - Contains .txt files, each listing species names (one per line) for a clade (e.g., an order or family).
+- Used to map sequences to their respective taxonomic groups.
+
+#### Input Arguments
+Argument	Description
++ --model_path	(str, Required) Path or name of the pretrained ZambaForCausalLM model.
++ --fasta_files_folder	(str, Required) Directory containing input .fasta files. Filenames must match species in species_list_folder.
++ --results_folder	(str, Required) Directory where JSON result files will be saved.
++ --species_list_folder	(str, Required) Folder containing .txt files of species grouped by clades (e.g., orders). Used to divide input data.
++ --model_name	(str, Optional) Tag added to result filenames (e.g., for model versioning or experiment tracking).
+
+#### Output
+For each **fasta file*, a corresponding **json* is saved in the results_folder, containing:
+
+Reconstruction groups at each hierarchical level
+
+The final root ancestral sequence prediction

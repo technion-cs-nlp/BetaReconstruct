@@ -47,8 +47,6 @@ The final root ancestral sequence prediction
 export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
 conda activate $BETA_RECONSTRUCT/python_env/
 
-module load gcc/gcc-11.2.0
-
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
@@ -65,4 +63,92 @@ python "predict_ancestral_hierarchical_approach.py" \
     --results_folder $RESULTS_FOLDER \
     --species_list_folder $SPEICEIS_LIST_FOLDER
 
+```
+
+## Align-Infer-Reconstruct Pipeline
+
+This script runs a ZAMBA-based language model for performing one of three tasks in molecular phylogenetics:
+ - Alignment of unaligned sequences
+ - Inference of phylogenetic relationships
+ - Reconstruction of ancestral sequences
+
+The model works with FASTA or CSV inputs.
+The models were trained on simulated data, containing 10 - 14 species.
+Input examples are provided in example_inputs_for_align_infer_or_reconstruct
+
+### Input Requirements
+Argument	Description
++ --model_path (str, Required) Path or name of the pretrained ZambaForCausalLM model.
++ --align (flag, Optional) Use this flag to perform sequence alignment (<ALIGN> token).
++ --infer (flag, Optional) Use this flag to perform phylogenetic inference (<INFER> token).
++ --reconstruct (flag, Optional) Use this flag to reconstruct ancestral sequences (<RECONSTRUCT> token).
++ --input (str, Required) Path to input file or folder. Must be either:
+++ a .csv file with unaligned_seqs and num_species columns
+++ a .fasta file
+++ a folder containing .fasta files
+--output (str, Required) Path to the output file (for CSV or FASTA) or folder (for batch FASTA processing).
+
+#### Examples
+
+##### Phylogenetic tree inference using a csv file
+```
+export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
+conda activate $BETA_RECONSTRUCT/python_env/
+
+export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
+export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
+
+export MODEL_PATH="dotan1111/BetaReconstruct_phase1_Configuration1"
+export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/test.csv"
+export OUTPUT="$BETA_RECONSTRUCT/outputs/trees.csv"
+
+cd $BETA_RECONSTRUCT
+
+python "align_infer_or_reconstruct.py" \
+    --model_path $MODEL_PATH \
+    --input $INPUT \
+    --output $OUTPUT \
+    --infer
+```
+
+##### Align using a fasta file
+```
+export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
+conda activate $BETA_RECONSTRUCT/python_env/
+
+export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
+export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
+
+export MODEL_PATH="dotan1111/BetaReconstruct_phase1_Configuratio2"
+export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/example1.fasta"
+export OUTPUT="$BETA_RECONSTRUCT/outputs/example1.fasta"
+
+cd $BETA_RECONSTRUCT
+
+python "align_infer_or_reconstruct.py" \
+    --model_path $MODEL_PATH \
+    --input $INPUT \
+    --output $OUTPUT \
+    --align
+```
+
+##### Reconstruct using a folder
+```
+export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
+conda activate $BETA_RECONSTRUCT/python_env/
+
+export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
+export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
+
+export MODEL_PATH="dotan1111/BetaReconstruct_phase1_Configuration3"
+export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/folder_with_fasta"
+export OUTPUT="$BETA_RECONSTRUCT/outputs/results_folder"
+
+cd $BETA_RECONSTRUCT
+
+python "align_infer_or_reconstruct.py" \
+    --model_path $MODEL_PATH \
+    --input $INPUT \
+    --output $OUTPUT \
+    --align
 ```

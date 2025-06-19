@@ -9,8 +9,8 @@ Illustration of ASR prediction using BetaReconstruct. (a): Consider the evolutio
 
 
 
-## Hierarchical Ancestral Sequence Reconstruction
-This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated.
+## Generative Approach for Ancestral Sequence Reconstruction
+This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated. We note that the models were fine-tuned on **Mammals data** only (OrthoMaM; Allio et al., 2024; Nucleic Acids Research).
 
 ### Overview
 The method uses a grouping strategy to divide sequences into manageable groups, generating intermediate ancestral sequences at each level using a causal language model. This continues hierarchically until a single root ancestor is reconstructed.
@@ -29,13 +29,13 @@ The script supports FASTA files as input and expects species groupings in text f
 #### Input Arguments
 Argument	Description
 + --model_path	(str, Required) Path or name of the pretrained ZambaForCausalLM model.
-+ --fasta_files_folder	(str, Required) Directory containing input .fasta files. Filenames must match species in species_list_folder.
-+ --results_folder	(str, Required) Directory where JSON result files will be saved.
++ --fasta_files_folder	(str, Required) Directory containing input *.fasta* files. Filenames must match species in species_list_folder.
++ --results_folder	(str, Required) Directory where json result files will be saved.
 + --species_list_folder	(str, Required) Folder containing .txt files of species grouped by clades (e.g., orders). Used to divide input data.
 + --model_name	(str, Optional) Tag added to result filenames (e.g., for model versioning or experiment tracking).
 
 #### Output
-For each **fasta file*, a corresponding **json* is saved in the results_folder, containing:
+For each *fasta file*, a corresponding *json* is saved in the results_folder, containing:
 
 Reconstruction groups at each hierarchical level
 

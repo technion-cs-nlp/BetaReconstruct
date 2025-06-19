@@ -40,3 +40,29 @@ For each *fasta file*, a corresponding *json* is saved in the results_folder, co
 Reconstruction groups at each hierarchical level
 
 The final root ancestral sequence prediction
+
+#### Examples
+
+```
+export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
+conda activate $BETA_RECONSTRUCT/python_env/
+
+module load gcc/gcc-11.2.0
+
+export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
+export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
+
+export MODEL_PATH="dotan1111/BetaReconstruct_Mammals_Configuration1"
+export FASTA_FILES_FOLDER="$BETA_RECONSTRUCT/fasta_val_files/"
+export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/"
+export SPEICEIS_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
+
+cd $BETA_RECONSTRUCT
+
+python "predict_ancestral_hierarchical_approach.py" \
+    --model_path $MODEL_PATH \
+    --fasta_files_folder $FASTA_FILES_FOLDER \
+    --results_folder $RESULTS_FOLDER \
+    --species_list_folder $SPEICEIS_LIST_FOLDER
+
+```

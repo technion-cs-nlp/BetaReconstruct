@@ -98,7 +98,7 @@ conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
-export MODEL_PATH="dotan1111/BetaReconstruct_phase1_Configuration1"
+export MODEL_PATH="dotan1111/BetaReconstruct_Configuration1"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/test.csv"
 export OUTPUT="$BETA_RECONSTRUCT/outputs/trees.csv"
 
@@ -119,7 +119,7 @@ conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
-export MODEL_PATH="dotan1111/BetaReconstruct_phase1_Configuratio2"
+export MODEL_PATH="dotan1111/BetaReconstruct_Configuratio2"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/example1.fasta"
 export OUTPUT="$BETA_RECONSTRUCT/outputs/example1.fasta"
 
@@ -140,7 +140,7 @@ conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
-export MODEL_PATH="dotan1111/BetaReconstruct_phase1_Configuration3"
+export MODEL_PATH="dotan1111/BetaReconstruct_Configuration3"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/folder_with_fasta"
 export OUTPUT="$BETA_RECONSTRUCT/outputs/results_folder"
 

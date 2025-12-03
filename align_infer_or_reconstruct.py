@@ -5,6 +5,7 @@ import pandas as pd
 import torch
 from transformers import GPT2TokenizerFast
 from transformers import ZambaForCausalLM
+from transformers import AutoConfig
 from ast import literal_eval
 from itertools import groupby
 import sys
@@ -42,10 +43,22 @@ def parse_arguments():
 def load_model_and_tokenizer(model_path):
     print(f"Loading model from: {model_path}")
     tokenizer = GPT2TokenizerFast.from_pretrained(model_path)
-    model = ZambaForCausalLM.from_pretrained(model_path)
+    config = AutoConfig.from_pretrained(model_path)
+    config.use_mamba_kernels = False
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    if device == "cuda":
+        print("Using GPU")
+        model = ZambaForCausalLM.from_pretrained(model_path)
+    else:
+        print("Using CPU")
+        config = AutoConfig.from_pretrained(model_path)
+        config.use_mamba_kernels = False
+        model = ZambaForCausalLM.from_pretrained(model_path, config=config)
+
     model.generation_config.pad_token_id = tokenizer.pad_token_id
     model.generation_config.eos_token_id = tokenizer.eos_token_id
-    model.to(torch.device("cuda" if torch.cuda.is_available() else "cpu"))
+    model.to(device)
     model.eval()
     print("Model and tokenizer loaded successfully.")
     return model, tokenizer

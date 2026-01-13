@@ -35,7 +35,7 @@ Links to models:
  - [BetaReconstruct_Configuration2](https://huggingface.co/dotan1111/BetaReconstruct_Configuration2)
  - [BetaReconstruct_Configuration3](https://huggingface.co/dotan1111/BetaReconstruct_Configuration3)
 
-[!IMPORTANT] Note on Generalization: While we have verified the models' ability to generalize to out-of-distribution data (as detailed in the main text), performance is highest when inference is performed on data distributions similar to those used during training.
+**[IMPORTANT] Note on Generalization**: While we have verified the models' ability to generalize to out-of-distribution data (as detailed in the main text), performance is highest when inference is performed on data distributions similar to those used during training.
 
 #### Input Requirements
 1. FASTA Files

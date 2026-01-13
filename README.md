@@ -8,13 +8,15 @@ Illustration of ASR prediction using BetaReconstruct. (a): Consider the evolutio
 
 ## Public models 
 We have released six pre-trained models on the HuggingFace Hub, available for public download. These models are categorized into two main groups based on their training objectives and datasets.
-1. Mammalian Ancestral Reconstruction Models
+1. **Mammalian Ancestral Reconstruction Models**
+
 These models were specifically fine-tuned on mammalian protein sequences to optimize accuracy for Ancestral Sequence Reconstruction within mammalian lineages.
 - [BetaReconstruct_Mammals_Configuration1](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration1)
 - [BetaReconstruct_Mammals_Configuration2](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration2)
 - [BetaReconstruct_Mammals_Configuration3](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration3)
 
-2. General Simulated Data Models
+2. **General Simulated Data Models**
+
 These models were trained on large-scale simulated datasets. They are multi-purpose tools designed to generate:
 + Multiple Sequence Alignments
 + Phylogenetic Trees

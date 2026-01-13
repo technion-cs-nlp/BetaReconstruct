@@ -30,6 +30,12 @@ Links to models:
 **[IMPORTANT] Note on Generalization**: While we have verified the models' ability to generalize to out-of-distribution data (as detailed in the main text), performance is highest when inference is performed on data distributions similar to those used during training.
 
 
+### Tokenization
+The models utilize a data-driven tokenizer specifically optimized for protein sequences. Instead of relying on standard single-amino-acid characters, this approach allows the model to learn and represent frequently occurring sequence patterns (sub-sequences) as distinct tokens. For a comprehensive technical breakdown of the tokenizer architecture and its training process, please refer to the main text of our publication.
+
+Related Resources
+ - [Biological Tokenizer repository](https://github.com/technion-cs-nlp/BiologicalTokenizers): You can find the source code and training scripts for biological tokenizers.
+ - [Research paper](https://academic.oup.com/bioinformatics/article/40/4/btae196/7645044): For detailed methodology and performance benchmarks, please see our paper: *"Effect of tokenization on transformers for biological sequences"*.
 
 
 ## Align-Infer-Reconstruct pipeline

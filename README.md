@@ -6,17 +6,7 @@ Ancestral sequence reconstruction (ASR) is a foundational task in evolutionary b
 ![alt text](https://github.com/technion-cs-nlp/BetaReconstruct/blob/main/outline_image.png)
 Illustration of ASR prediction using BetaReconstruct. (a): Consider the evolution of the sequence “AAMM”, to the proteins: “AAM”, “AYM” and “ATMMM”. (b) BetaReconstruct pipeline. (Ⅰ): The input to the model, unaligned protein sequences; (Ⅱ): The protein sequences are concatenated with special characters between; (Ⅲ): The model processes the input and predicts the output, which is the ancestral sequence (Ⅳ).
 
-
-
-## Generative Approach for Ancestral Sequence Reconstruction
-This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated. We note that the models were fine-tuned on **Mammals data** only (OrthoMaM; Allio et al., 2024; Nucleic Acids Research).
-
-### Overview
-The method uses a grouping strategy to divide sequences into manageable groups, generating intermediate ancestral sequences at each level using a causal language model. This continues hierarchically until a single root ancestor is reconstructed.
-
-The script supports FASTA files as input and expects species groupings in text format. Output is saved in JSON format containing group information and the final prediction.
-
-#### Model types
+## Public models 
 We have released six pre-trained models on the HuggingFace Hub, available for public download. These models are categorized into two main groups based on their training objectives and datasets.
 1. Mammalian Ancestral Reconstruction Models
 These models were specifically fine-tuned on mammalian protein sequences to optimize accuracy for Ancestral Sequence Reconstruction within mammalian lineages.
@@ -36,6 +26,14 @@ Links to models:
  - [BetaReconstruct_Configuration3](https://huggingface.co/dotan1111/BetaReconstruct_Configuration3)
 
 **[IMPORTANT] Note on Generalization**: While we have verified the models' ability to generalize to out-of-distribution data (as detailed in the main text), performance is highest when inference is performed on data distributions similar to those used during training.
+
+## Generative Approach for Ancestral Sequence Reconstruction with many species
+This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated. We note that the models were fine-tuned on **Mammals data** only (OrthoMaM; Allio et al., 2024; Nucleic Acids Research).
+
+### Overview
+The method uses a grouping strategy to divide sequences into manageable groups, generating intermediate ancestral sequences at each level using a causal language model. This continues hierarchically until a single root ancestor is reconstructed.
+
+The script supports FASTA files as input and expects species groupings in text format. Output is saved in JSON format containing group information and the final prediction.
 
 #### Input Requirements
 1. FASTA Files
@@ -85,7 +83,7 @@ python "predict_ancestral_hierarchical_approach.py" \
 
 ```
 
-## Align-Infer-Reconstruct Pipeline
+## Align-Infer-Reconstruct pipeline
 
 This script runs a ZAMBA-based language model for performing one of three tasks in molecular phylogenetics:
  - Alignment of unaligned sequences

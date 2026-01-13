@@ -29,61 +29,8 @@ Links to models:
 
 **[IMPORTANT] Note on Generalization**: While we have verified the models' ability to generalize to out-of-distribution data (as detailed in the main text), performance is highest when inference is performed on data distributions similar to those used during training.
 
-## Generative Approach for Ancestral Sequence Reconstruction with many species
-This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated. We note that the models were fine-tuned on **Mammals data** only (OrthoMaM; Allio et al., 2024; Nucleic Acids Research).
 
-### Overview
-The method uses a grouping strategy to divide sequences into manageable groups, generating intermediate ancestral sequences at each level using a causal language model. This continues hierarchically until a single root ancestor is reconstructed.
 
-The script supports FASTA files as input and expects species groupings in text format. Output is saved in JSON format containing group information and the final prediction.
-
-#### Input Requirements
-1. FASTA Files
- - Each fasta file should contain multiple sequences for one gene or family.
- - Filenames should follow the format FAMILY_NAME.fasta.
-
-2. Species List Folder
- - Contains .txt files, each listing species names (one per line) for a clade (e.g., an order or family).
-- Used to map sequences to their respective taxonomic groups.
-
-#### Input Arguments
-Argument	Description
-+ --model_path	(str, Required) Path or name of the pretrained ZambaForCausalLM model.
-+ --fasta_files_folder	(str, Required) Directory containing input *.fasta* files. Filenames must match species in species_list_folder.
-+ --results_folder	(str, Required) Directory where json result files will be saved.
-+ --species_list_folder	(str, Required) Folder containing .txt files of species grouped by clades (e.g., orders). Used to divide input data.
-+ --model_name	(str, Optional) Tag added to result filenames (e.g., for model versioning or experiment tracking).
-
-#### Output
-For each *fasta file*, a corresponding *json* is saved in the results_folder, containing:
-
-Reconstruction groups at each hierarchical level
-
-The final root ancestral sequence prediction
-
-#### Examples
-
-```
-export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
-conda activate $BETA_RECONSTRUCT/python_env/
-
-export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
-export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
-
-export MODEL_PATH="dotan1111/BetaReconstruct_Mammals_Configuration1"
-export FASTA_FILES_FOLDER="$BETA_RECONSTRUCT/fasta_val_files/"
-export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/"
-export SPEICEIS_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
-
-cd $BETA_RECONSTRUCT
-
-python "predict_ancestral_hierarchical_approach.py" \
-    --model_path $MODEL_PATH \
-    --fasta_files_folder $FASTA_FILES_FOLDER \
-    --results_folder $RESULTS_FOLDER \
-    --species_list_folder $SPEICEIS_LIST_FOLDER
-
-```
 
 ## Align-Infer-Reconstruct pipeline
 
@@ -172,3 +119,62 @@ python "align_infer_or_reconstruct.py" \
     --output $OUTPUT \
     --align
 ```
+
+
+
+## Inferring ancestral sequence for many species
+This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated. We note that the models were fine-tuned on **Mammals data** only (OrthoMaM; Allio et al., 2024; Nucleic Acids Research).
+
+### Overview
+The method uses a grouping strategy to divide sequences into manageable groups, generating intermediate ancestral sequences at each level using a causal language model. This continues hierarchically until a single root ancestor is reconstructed.
+
+The script supports FASTA files as input and expects species groupings in text format. Output is saved in JSON format containing group information and the final prediction.
+
+#### Input Requirements
+1. FASTA Files
+ - Each fasta file should contain multiple sequences for one gene or family.
+ - Filenames should follow the format FAMILY_NAME.fasta.
+
+2. Species List Folder
+ - Contains .txt files, each listing species names (one per line) for a clade (e.g., an order or family).
+- Used to map sequences to their respective taxonomic groups.
+
+#### Input Arguments
+Argument	Description
++ --model_path	(str, Required) Path or name of the pretrained ZambaForCausalLM model.
++ --fasta_files_folder	(str, Required) Directory containing input *.fasta* files. Filenames must match species in species_list_folder.
++ --results_folder	(str, Required) Directory where json result files will be saved.
++ --species_list_folder	(str, Required) Folder containing .txt files of species grouped by clades (e.g., orders). Used to divide input data.
++ --model_name	(str, Optional) Tag added to result filenames (e.g., for model versioning or experiment tracking).
+
+#### Output
+For each *fasta file*, a corresponding *json* is saved in the results_folder, containing:
+
+Reconstruction groups at each hierarchical level
+
+The final root ancestral sequence prediction
+
+#### Examples
+
+```
+export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
+conda activate $BETA_RECONSTRUCT/python_env/
+
+export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
+export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
+
+export MODEL_PATH="dotan1111/BetaReconstruct_Mammals_Configuration1"
+export FASTA_FILES_FOLDER="$BETA_RECONSTRUCT/fasta_val_files/"
+export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/"
+export SPEICEIS_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
+
+cd $BETA_RECONSTRUCT
+
+python "predict_ancestral_hierarchical_approach.py" \
+    --model_path $MODEL_PATH \
+    --fasta_files_folder $FASTA_FILES_FOLDER \
+    --results_folder $RESULTS_FOLDER \
+    --species_list_folder $SPEICEIS_LIST_FOLDER
+
+```
+

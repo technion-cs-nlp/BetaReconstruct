@@ -35,7 +35,7 @@ The models utilize a data-driven tokenizer specifically optimized for evolutiona
 
 Related Resources
  - [BiologicalTokenizers repository](https://github.com/technion-cs-nlp/BiologicalTokenizers): You can find the source code and training scripts for biological tokenizers.
- - [Research paper](https://academic.oup.com/bioinformatics/article/40/4/btae196/7645044): For detailed methodology and performance benchmarks, please see our paper: *"Effect of tokenization on transformers for biological sequences"*.
+ - [Research paper](https://academic.oup.com/bioinformatics/article/40/4/btae196/7645044): For detailed methodology and performance benchmarks, please see our paper: *"Effect of tokenization on transformers for biological sequences"* (Dotan et al., 2024; Bioinformatics).
 
 
 ## Align-Infer-Reconstruct pipeline

@@ -52,9 +52,9 @@ Input examples are provided in example_inputs_for_align_infer_or_reconstruct
 ### Input Requirements
 Argument	Description
 + --model_path (str, Required) Path or name of the pretrained ZambaForCausalLM model.
-+ --align (flag, Optional) Use this flag to perform sequence alignment (<ALIGN> token).
-+ --infer (flag, Optional) Use this flag to perform phylogenetic inference (<INFER> token).
-+ --reconstruct (flag, Optional) Use this flag to reconstruct ancestral sequences (<RECONSTRUCT> token).
++ --align (flag) Use this flag to perform sequence alignment (/<ALIGN/> token).
++ --infer (flag) Use this flag to perform phylogenetic inference (/<INFER/> token).
++ --reconstruct (flag) Use this flag to reconstruct ancestral sequences (/<RECONSTRUCT/> token).
 + --input (str, Required) Path to input file or folder. Must be either:
   + a. a csv file with unaligned_seqs and num_species columns
   + b. a fasta file

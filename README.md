@@ -82,9 +82,9 @@ Argument	Description
 + --infer (flag, Optional) Use this flag to perform phylogenetic inference (<INFER> token).
 + --reconstruct (flag, Optional) Use this flag to reconstruct ancestral sequences (<RECONSTRUCT> token).
 + --input (str, Required) Path to input file or folder. Must be either:
-  ++ a .csv file with unaligned_seqs and num_species columns
-  ++ a .fasta file
-  ++ a folder containing .fasta files
++ a. a csv file with unaligned_seqs and num_species columns
++ b. a fasta file
++ c. a folder containing .fasta files
 --output (str, Required) Path to the output file (for CSV or FASTA) or folder (for batch FASTA processing).
 
 #### Examples

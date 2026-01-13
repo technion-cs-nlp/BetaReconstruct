@@ -16,6 +16,27 @@ The method uses a grouping strategy to divide sequences into manageable groups, 
 
 The script supports FASTA files as input and expects species groupings in text format. Output is saved in JSON format containing group information and the final prediction.
 
+#### Model types
+We have released six pre-trained models on the HuggingFace Hub, available for public download. These models are categorized into two main groups based on their training objectives and datasets.
+1. Mammalian Ancestral Reconstruction Models
+These models were specifically fine-tuned on mammalian protein sequences to optimize accuracy for Ancestral Sequence Reconstruction within mammalian lineages.
+- [BetaReconstruct_Mammals_Configuration1](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration1)
+- [BetaReconstruct_Mammals_Configuration2](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration2)
+- [BetaReconstruct_Mammals_Configuration3](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration3)
+
+2. General Simulated Data Models
+These models were trained on large-scale simulated datasets. They are multi-purpose tools designed to generate:
++ Multiple Sequence Alignments
++ Phylogenetic Trees
++ Ancestral Sequences
+
+Links to models:
+ - [BetaReconstruct_Configuration1](https://huggingface.co/dotan1111/BetaReconstruct_Configuration1)
+ - [BetaReconstruct_Configuration2](https://huggingface.co/dotan1111/BetaReconstruct_Configuration2)
+ - [BetaReconstruct_Configuration3](https://huggingface.co/dotan1111/BetaReconstruct_Configuration3)
+
+[!IMPORTANT] Note on Generalization: While we have verified the models' ability to generalize to out-of-distribution data (as detailed in the main text), performance is highest when inference is performed on data distributions similar to those used during training.
+
 #### Input Requirements
 1. FASTA Files
  - Each fasta file should contain multiple sequences for one gene or family.

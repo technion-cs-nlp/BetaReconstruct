@@ -95,7 +95,7 @@ export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
 export MODEL_PATH="dotan1111/BetaReconstruct_Configuration2"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/example1.fasta"
-export OUTPUT="$BETA_RECONSTRUCT/outputs/example1.fasta"
+export OUTPUT="$BETA_RECONSTRUCT/outputs/example1_aligned.fasta"
 
 cd $BETA_RECONSTRUCT
 mkdir -p "$(dirname "$OUTPUT")"
@@ -117,7 +117,7 @@ export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
 export MODEL_PATH="dotan1111/BetaReconstruct_Configuration3"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/folder_with_fasta"
-export OUTPUT="$BETA_RECONSTRUCT/outputs/results_folder"
+export OUTPUT="$BETA_RECONSTRUCT/outputs/ASR_results_folder"
 
 cd $BETA_RECONSTRUCT
 mkdir -p "$OUTPUT"

@@ -84,11 +84,19 @@ def initialize_model(args):
     tokenizer = GPT2TokenizerFast.from_pretrained(args.model_path)
 
     try:
-        model = ZambaForCausalLM.from_pretrained(args.model_path)
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        if device == "cuda":
+            print("Using GPU")
+            model = ZambaForCausalLM.from_pretrained(model_path)
+        else:
+            print("Using CPU")
+            config = AutoConfig.from_pretrained(model_path)
+            config.use_mamba_kernels = False
+            model = ZambaForCausalLM.from_pretrained(model_path, config=config)
     except Exception as e:
         exit(f"Failed to load model - {e}, exit")
 
-    return model.to("cuda" if torch.cuda.is_available() else "cpu"), tokenizer
+    return model.to(device), tokenizer
 
 def parse_arguments():
     parser = argparse.ArgumentParser()
@@ -170,3 +178,4 @@ def main(args):
 
 if __name__ == "__main__":
     main(parse_arguments())
+

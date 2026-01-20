@@ -76,6 +76,7 @@ export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/te
 export OUTPUT="$BETA_RECONSTRUCT/outputs/trees.csv"
 
 cd $BETA_RECONSTRUCT
+mkdir -p "$(dirname "$OUTPUT")"
 
 python "align_infer_or_reconstruct.py" \
     --model_path $MODEL_PATH \
@@ -92,11 +93,12 @@ conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
-export MODEL_PATH="dotan1111/BetaReconstruct_Configuratio2"
+export MODEL_PATH="dotan1111/BetaReconstruct_Configuration2"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/example1.fasta"
 export OUTPUT="$BETA_RECONSTRUCT/outputs/example1.fasta"
 
 cd $BETA_RECONSTRUCT
+mkdir -p "$(dirname "$OUTPUT")"
 
 python "align_infer_or_reconstruct.py" \
     --model_path $MODEL_PATH \
@@ -118,12 +120,13 @@ export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/fo
 export OUTPUT="$BETA_RECONSTRUCT/outputs/results_folder"
 
 cd $BETA_RECONSTRUCT
+mkdir -p "$OUTPUT"
 
 python "align_infer_or_reconstruct.py" \
     --model_path $MODEL_PATH \
     --input $INPUT \
     --output $OUTPUT \
-    --align
+    --reconstruct
 ```
 
 
@@ -175,6 +178,7 @@ export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/"
 export SPEICEIS_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
 
 cd $BETA_RECONSTRUCT
+mkdir -p "$RESULTS_FOLDER"
 
 python "predict_ancestral_hierarchical_approach.py" \
     --model_path $MODEL_PATH \

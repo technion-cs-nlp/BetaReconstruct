@@ -8,7 +8,7 @@ from itertools import groupby
 import torch
 import pandas as pd
 from typing import List, Dict, Tuple
-from transformers import ZambaForCausalLM, GPT2TokenizerFast
+from transformers import ZambaForCausalLM, GPT2TokenizerFast, AutoConfig
 
 def fasta_iter(fasta_name: str) -> Dict[str, str]:
     """Parse FASTA file into a dict of header -> sequence."""
@@ -85,14 +85,14 @@ def initialize_model(args):
 
     try:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        if device == "cuda":
+        if device.type == "cuda":
             print("Using GPU")
-            model = ZambaForCausalLM.from_pretrained(model_path)
+            model = ZambaForCausalLM.from_pretrained(args.model_path)
         else:
             print("Using CPU")
-            config = AutoConfig.from_pretrained(model_path)
+            config = AutoConfig.from_pretrained(args.model_path)
             config.use_mamba_kernels = False
-            model = ZambaForCausalLM.from_pretrained(model_path, config=config)
+            model = ZambaForCausalLM.from_pretrained(args.model_path, config=config)
     except Exception as e:
         exit(f"Failed to load model - {e}, exit")
 

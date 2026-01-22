@@ -35,13 +35,13 @@ The models utilize a data-driven tokenizer specifically optimized for evolutiona
 
 Related Resources
  - [BiologicalTokenizers repository](https://github.com/technion-cs-nlp/BiologicalTokenizers): You can find the source code and training scripts for biological tokenizers.
- - [Research paper](https://academic.oup.com/bioinformatics/article/40/4/btae196/7645044): For detailed methodology and performance benchmarks, please see our paper: *"Effect of tokenization on transformers for biological sequences"* (Dotan et al., 2024; Bioinformatics).
+ - [Research paper](https://academic.oup.com/bioinformatics/article/40/4/btae196/7645044): For detailed methodology and performance benchmarks, please see our paper: *"Effect of tokenization on transformers for biological sequences"* (2024; Bioinformatics).
 
 
 ## Align-Infer-Reconstruct pipeline
 
 This script runs a ZAMBA-based language model for performing one of three tasks in molecular phylogenetics:
- - Alignment of unaligned sequences
+ - Alignment of unaligned sequences: See also: [Multiple sequence alignment as a sequence-to-sequence learning problem (2023; ICLR)](https://openreview.net/forum?id=8efJYMBrNb) and [BetaAlign: a deep learning approach for multiple sequence alignment (2025; Bioinformatics)](https://academic.oup.com/bioinformatics/article/40/4/btae196/7645044)
  - Inference of phylogenetic relationships
  - Reconstruction of ancestral sequences
 

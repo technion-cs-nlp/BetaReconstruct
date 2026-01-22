@@ -188,3 +188,24 @@ python "predict_ancestral_hierarchical_approach.py" \
 
 ```
 
+## APA
+
+```
+Edo Dotan, Elya Wygoda, Asaf Schers, Iris Lyubman, Yonatan Belinkov and Tal Pupko, Ancestral sequence reconstruction using generative model, bioRxiv 2026; https://www.biorxiv.org/content/early/2026/01/21/2026.01.18.700141
+```
+
+
+## BibTeX
+```
+@article{dotan_ancestral_2026,
+	title = {Ancestral sequence reconstruction using generative models},
+	url = {https://www.biorxiv.org/content/early/2026/01/21/2026.01.18.700141},
+	doi = {10.64898/2026.01.18.700141},
+	abstract = {Ancestral sequence reconstruction (ASR) is a foundational task in evolutionary biology, providing insights into the molecular past and guiding studies of protein function and adaptation. Conventional ASR methods rely on a multiple sequence alignment (MSA), a phylogenetic tree, and an evolutionary model. However, the underlying alignments and trees are often uncertain, and existing models typically focus on substitutions and do not explicitly account for insertion-deletion (indel) processes. Here, we introduce BetaReconstruct, a novel generative approach to ASR that harnesses recent advances in natural language processing (NLP) and hybrid transformer architectures. Our model was initially trained on large-scale simulated datasets with gold-standard ancestral sequences and subsequently on real-world protein sequences. The reconstruction requires neither MSAs nor phylogenetic trees. We demonstrate that BetaReconstruct generalizes robustly across diverse evolutionary scenarios and reconstructs ancestral sequences more accurately than maximum-likelihood-based pipelines. We additionally provide evidence that the generative-model ASR approach is also more accurate when analyzing empirical datasets. This work provides a scalable, alignment-free strategy for ASR and highlights the ability of data-driven models to capture evolutionary signals beyond the reach of traditional methods.},
+	journal = {bioRxiv},
+	author = {Dotan, Edo and Wygoda, Elya and Schers, Asaf and Lyubman, Iris and Belinkov, Yonatan and Pupko, Tal},
+	year = {2026},
+	note = {Publisher: Cold Spring Harbor Laboratory
+\_eprint: https://www.biorxiv.org/content/early/2026/01/21/2026.01.18.700141.full.pdf},
+}
+```

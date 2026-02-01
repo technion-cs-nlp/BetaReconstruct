@@ -1,0 +1,64 @@
+message: "If you use this repo, please cite it as below."
+title:
+  Ancestral sequence reconstruction using generative models
+abstract: |
+  Ancestral sequence reconstruction (ASR) is a foundational task in evolutionary biology, providing insights into the molecular past and guiding studies of protein function and adaptation. Conventional ASR methods rely on a multiple sequence alignment (MSA), a phylogenetic tree, and an evolutionary model. However, the underlying alignments and trees are often uncertain, and existing models typically focus on substitutions and do not explicitly account for insertion-deletion (indel) processes. Here, we introduce BetaReconstruct, a novel generative approach to ASR that harnesses recent advances in natural language processing (NLP) and hybrid transformer architectures. Our model was initially trained on large-scale simulated datasets with gold-standard ancestral sequences and subsequently on real-world protein sequences. The reconstruction requires neither MSAs nor phylogenetic trees. We demonstrate that BetaReconstruct generalizes robustly across diverse evolutionary scenarios and reconstructs ancestral sequences more accurately than maximum-likelihood-based pipelines. We additionally provide evidence that the generative-model ASR approach is also more accurate when analyzing empirical datasets. This work provides a scalable, alignment-free strategy for ASR and highlights the ability of data-driven models to capture evolutionary signals beyond the reach of traditional methods.Competing Interest StatementThe authors have declared no competing interest.Israel Science Foundation, https://ror.org/04sazxf24, 2942/25, 2818/21
+type: journalArticle
+url: https://www.biorxiv.org/content/early/2026/01/21/2026.01.18.700141
+authors: 
+  - family-names: Dotan
+    given-names: Edo
+  - family-names: Wygoda
+    given-names: Elya
+  - family-names: Schers
+    given-names: Asaf
+  - family-names: Lyubman
+    given-names: Iris
+  - family-names: Belinkov
+    given-names: Yonatan
+  - family-names: Pupko
+    given-names: Tal
+editors: 
+  - family-names: Dotan
+    given-names: Edo
+  - family-names: Wygoda
+    given-names: Elya
+  - family-names: Schers
+    given-names: Asaf
+  - family-names: Lyubman
+    given-names: Iris
+  - family-names: Belinkov
+    given-names: Yonatan
+  - family-names: Pupko
+    given-names: Tal
+recipients: 
+  - family-names: Dotan
+    given-names: Edo
+  - family-names: Wygoda
+    given-names: Elya
+  - family-names: Schers
+    given-names: Asaf
+  - family-names: Lyubman
+    given-names: Iris
+  - family-names: Belinkov
+    given-names: Yonatan
+  - family-names: Pupko
+    given-names: Tal
+translators: 
+  - family-names: Dotan
+    given-names: Edo
+  - family-names: Wygoda
+    given-names: Elya
+  - family-names: Schers
+    given-names: Asaf
+  - family-names: Lyubman
+    given-names: Iris
+  - family-names: Belinkov
+    given-names: Yonatan
+  - family-names: Pupko
+    given-names: Tal
+date-published: 2026
+year: 2026
+identifiers: 
+  - type: doi
+    value: 10.64898/2026.01.18.700141

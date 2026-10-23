@@ -63,6 +63,38 @@ Argument	Description
 
 #### Examples
 
+##### Reconstruct an internal node using a fasta file and an outgroup
+The sequences named in `--outgroup` (a .txt file with one name per line, or comma-separated names) form the outgroup, and all other sequences form the ingroup. The ancestor of the ingroup is reconstructed.
+```
+export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
+conda activate $BETA_RECONSTRUCT/python_env/
+export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
+export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
+export MODEL_PATH="<INTERNAL_NODE_MODEL>"
+export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/internal_node_example.fasta"
+export OUTGROUP="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/internal_node_outgroup.txt"
+export OUTPUT="$BETA_RECONSTRUCT/outputs/internal_node_example_prediction.fasta"
+cd $BETA_RECONSTRUCT
+mkdir -p "$(dirname "$OUTPUT")"
+python "align_infer_or_reconstruct.py" \
+    --model_path $MODEL_PATH \
+    --input $INPUT \
+    --output $OUTPUT \
+    --outgroup $OUTGROUP \
+    --reconstruct
+```
+##### Reconstruct internal nodes using a csv file
+Each row is one instance. The script uses the `seq_x` column (or the `outgroup` and `ingroup` columns) and adds a `prediction_reconstruct` column. The test sets in `data/` can be used the same way.
+```
+export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/internal_node_test.csv"
+export OUTPUT="$BETA_RECONSTRUCT/outputs/internal_node_predictions.csv"
+python "align_infer_or_reconstruct.py" \
+    --model_path $MODEL_PATH \
+    --input $INPUT \
+    --output $OUTPUT \
+    --reconstruct
+```
+
 ##### Phylogenetic tree inference using a csv file
 ```
 export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"

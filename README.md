@@ -163,61 +163,42 @@ python "align_infer_or_reconstruct.py" \
 
 
 
-## Inferring ancestral sequence for many species
-This Python script performs hierarchical ancestral sequence reconstruction using a language model (ZambaForCausalLM) in a multi-level strategy. Sequences are grouped based on clade and progressively merged and reconstructed level by level until a root ancestral sequence is generated. We note that the models were fine-tuned on **Mammals data** only (OrthoMaM; Allio et al., 2024; Nucleic Acids Research).
+### Mammalian proteins (OrthoMaM)
+The mammalian test set is in [`data/mammalian_validation/`](data/mammalian_validation/): 40 protein families from OrthoMaM version 12 (Allio et al., 2024), the mammalian test families of the paper. In each family, the task is to reconstruct the ancestor of the placental mammals:
+ - **Ingroup:** the placental species (Placentalia), about 164 per family.
+ - **Outgroup:** the marsupial species (orders Dasyuromorphia, Didelphimorphia, Diprotodontia, Microbiotheria (*Dromiciops gliroides*) and Peramelemorphia), up to 8 per family.
+ - The monotremes (platypus and echidna), which are neither placental nor marsupial, were removed.
+Each family has its own folder with `ingroup.fasta` and `outgroup.fasta` (unaligned sequences, named by species). The folder also contains `mammalian_test_families.csv` (all families in the input format of the simulated test sets), `family_counts.csv` (number of ingroup and outgroup species per family), and the script that created these files from OrthoMaM. Families 283297 and 5535 contain no marsupials, so their ingroup ancestor cannot be reconstructed. In the paper, the reconstructed ancestors were evaluated through their predicted structures (Supplementary Information S5).
+Because each family has about 170 species, the ancestors are reconstructed hierarchically with `predict_ancestral_hierarchical_approach.py` (see [Inferring ancestral sequence for many species](#inferring-ancestral-sequence-for-many-species)), which reads the folder directly.
 
-### Overview
-The method uses a grouping strategy to divide sequences into manageable groups, generating intermediate ancestral sequences at each level using a causal language model. This continues hierarchically until a single root ancestor is reconstructed.
-
-The script supports FASTA files as input and expects species groupings in text format. Output is saved in JSON format containing group information and the final prediction.
-
-#### Input Requirements
-1. FASTA Files
- - Each fasta file should contain multiple sequences for one gene or family.
- - Filenames should follow the format FAMILY_NAME.fasta.
-
-2. Species List Folder
- - Contains .txt files, each listing species names (one per line) for a clade (e.g., an order or family).
-- Used to map sequences to their respective taxonomic groups.
-
-#### Input Arguments
-Argument	Description
-+ --model_path	(str, Required) Path or name of the pretrained ZambaForCausalLM model.
-+ --fasta_files_folder	(str, Required) Directory containing input *.fasta* files. Filenames must match species in species_list_folder.
-+ --results_folder	(str, Required) Directory where json result files will be saved.
-+ --species_list_folder	(str, Required) Folder containing .txt files of species grouped by clades (e.g., orders). Used to divide input data.
-+ --model_name	(str, Optional) Tag added to result filenames (e.g., for model versioning or experiment tracking).
-
-#### Output
-For each *fasta file*, a corresponding *json* is saved in the results_folder, containing:
-
-Reconstruction groups at each hierarchical level
-
-The final root ancestral sequence prediction
-
-#### Examples
-
+#### Running example
+Reconstruct the ancestor of the placental mammals for one family (2331), then for all families:
 ```
 export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
 conda activate $BETA_RECONSTRUCT/python_env/
-
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
-
-export MODEL_PATH="dotan1111/BetaReconstruct_Mammals_Configuration1"
-export FASTA_FILES_FOLDER="$BETA_RECONSTRUCT/fasta_val_files/"
-export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/"
-export SPEICEIS_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
-
+export MODEL_PATH="<MAMMALIAN_INTERNAL_NODE_MODEL>"
+export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/mammalian/"
+export SPECIES_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
 cd $BETA_RECONSTRUCT
 mkdir -p "$RESULTS_FOLDER"
-
+# One family
 python "predict_ancestral_hierarchical_approach.py" \
     --model_path $MODEL_PATH \
-    --fasta_files_folder $FASTA_FILES_FOLDER \
+    --fasta_files_folder "$BETA_RECONSTRUCT/data/mammalian_validation/2331_NT_AL_AA/" \
     --results_folder $RESULTS_FOLDER \
-    --species_list_folder $SPEICEIS_LIST_FOLDER
-
+    --species_list_folder $SPECIES_LIST_FOLDER
+# All families (283297 and 5535 are skipped: no outgroup)
+python "predict_ancestral_hierarchical_approach.py" \
+    --model_path $MODEL_PATH \
+    --fasta_files_folder "$BETA_RECONSTRUCT/data/mammalian_validation/" \
+    --results_folder $RESULTS_FOLDER \
+    --species_list_folder $SPECIES_LIST_FOLDER
+```
+Each family gives `results/mammalian/<family>.json`. The reconstructed placental ancestor is in its `prediction` field:
+```
+python -c "import json; print(json.load(open('results/mammalian/2331_NT_AL_AA.json'))['prediction'])"
 ```
 
 ## APA

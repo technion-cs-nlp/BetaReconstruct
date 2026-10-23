@@ -1,10 +1,10 @@
 # Ancestral sequence reconstruction using generative models
 
 ## Abstract:
-Ancestral sequence reconstruction (ASR) is a foundational task in evolutionary biology, providing insights into the molecular past and guiding studies of protein function and adaptation. Conventional ASR methods rely on a multiple sequence alignment (MSA), a phylogenetic tree, and an evolutionary model. However, the underlying alignments and trees are often uncertain, and existing models typically focus on substitutions and do not explicitly account for insertion-deletion (indel) processes. Here, we introduce BetaReconstruct, a novel generative approach to ASR that harnesses recent advances in natural language processing (NLP) and hybrid transformer architectures. Our model was initially trained on large-scale simulated datasets with gold-standard ancestral sequences and subsequently on real-world protein sequences. The reconstruction requires neither MSAs nor phylogenetic trees; to reconstruct an internal node, the user only specifies which sequences descend from it (ingroup) and which do not (outgroup). BetaReconstruct achieved accuracy comparable to that of maximum-likelihood and Bayesian methods in reconstructing ancestral sequences at internal nodes, and inferred fewer false ancestral insertions. Its accuracy remained similar under evolutionary models not seen during training. When the evolutionary process varied along the sequence, BetaReconstruct was in some cases more accurate than maximum-likelihood methods. . This work provides a scalable, alignment-free strategy for ASR and highlights the ability of data-driven models to capture evolutionary signals beyond the reach of traditional methods.
+Ancestral sequence reconstruction (ASR) is a foundational task in evolutionary biology, providing insights into the molecular past and guiding studies of protein function and adaptation. Conventional ASR methods rely on a multiple sequence alignment (MSA), a phylogenetic tree, and an evolutionary model. However, alignments and trees are often uncertain, and the evolutionary models typically assume a single, simplified process of substitutions and insertion–deletion (indel) events for all sites. Here, we introduce BetaReconstruct, a generative approach to ASR that builds on recent advances in natural language processing (NLP) and uses a hybrid transformer–state-space architecture. The model was first trained on large-scale simulated datasets with known ancestral sequences and then fine-tuned on empirical protein sequences. Reconstruction requires neither an MSA nor a phylogenetic tree; to reconstruct an internal node, the user only specifies which sequences descend from it (ingroup) and which do not (outgroup). On simulated data, BetaReconstruct achieved accuracy comparable to that of maximum-likelihood and Bayesian methods and inferred fewer false ancestral insertions. Its accuracy remained similar under evolutionary models not seen during training. When different regions of the sequence evolved under different processes, BetaReconstruct was more accurate than maximum-likelihood methods and close to the Bayesian method. In a structural analysis of mammalian proteins, the ancestors reconstructed by BetaReconstruct were, on average, more similar to their descendants than to the outgroup, whereas maximum-likelihood reconstructions were pulled toward the outgroup. This work provides a scalable, alignment-free strategy for ASR that can be adapted to new evolutionary processes by changing the simulations used for training.
 
 ![alt text](https://github.com/technion-cs-nlp/BetaReconstruct/blob/main/outline_image.png)
-Illustration of ASR prediction using BetaReconstruct. (a): Consider the evolution of the sequence “AAMM”, to the proteins: “AAM”, “AYM” and “ATMMM”. (b) BetaReconstruct pipeline. (Ⅰ): The input to the model, unaligned protein sequences; (Ⅱ): The protein sequences are concatenated with special characters between; (Ⅲ): The model processes the input and predicts the output, which is the ancestral sequence (Ⅳ).
+Illustration of ASR using BetaReconstruct. (a) The ‘true’ evolutionary dynamics, in which the ancestral sequence “AAMM” evolved along a phylogenetic tree. The leaf sequences are “AAL”, “AYM”, and “ATMMM”. The target internal node, “AAM”, is the ancestor of the ingroup sequences “AAL” and “AYM”, and the sequence "ATMMM" serves as the outgroup. (b) The BetaReconstruct pipeline: (Ⅰ) the unaligned protein sequences are provided as input; (Ⅱ) the sequences are concatenated into a single string, in which the outgroup sequence is followed by a “#” character, ingroup sequences are separated by a “|” character, and a special “<RECONSTRUCT>” token marks the start of the prediction; (Ⅲ) the model processes the input; (Ⅳ) the model generates the ancestral sequence. (c) A typical ASR pipeline, which runs multiple independent tools: (Ⅰ) the unaligned protein sequences are provided as input; (Ⅱ) an alignment program infers an MSA; (Ⅲ) the resulting MSA, including newly introduced gap characters; (Ⅳ) a tree inference program uses the MSA to infer the phylogeny; (Ⅴ) the inferred tree, shown in a Newick format; (Ⅵ) specialized ASR software uses both the MSA and the tree as inputs to perform the reconstruction; (Ⅶ) the final output is the reconstructed ancestral sequence. Joint methods such as BAli-Phy combine steps (Ⅱ)–(Ⅵ).
 
 ## Public models 
 We have released six pre-trained models on the HuggingFace Hub, available for public download. These models are categorized into two main groups based on their training objectives and datasets.
@@ -70,7 +70,7 @@ export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
 conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
-export MODEL_PATH="<INTERNAL_NODE_MODEL>"
+export MODEL_PATH="dotan1111/BetaReconstruct_Configuration1_internal_nodes"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/internal_node_example.fasta"
 export OUTGROUP="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/internal_node_outgroup.txt"
 export OUTPUT="$BETA_RECONSTRUCT/outputs/internal_node_example_prediction.fasta"
@@ -125,7 +125,7 @@ conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
-export MODEL_PATH="dotan1111/BetaReconstruct_Configuration2"
+export MODEL_PATH="dotan1111/BetaReconstruct_Configuration1"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/example1.fasta"
 export OUTPUT="$BETA_RECONSTRUCT/outputs/example1_aligned.fasta"
 
@@ -147,7 +147,7 @@ conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
 
-export MODEL_PATH="dotan1111/BetaReconstruct_Configuration3"
+export MODEL_PATH="dotan1111/BetaReconstruct_Configuration1"
 export INPUT="$BETA_RECONSTRUCT/example_inputs_for_align_infer_or_reconstruct/folder_with_fasta"
 export OUTPUT="$BETA_RECONSTRUCT/outputs/ASR_results_folder"
 
@@ -183,12 +183,14 @@ export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/mammalian/"
 export SPECIES_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
 cd $BETA_RECONSTRUCT
 mkdir -p "$RESULTS_FOLDER"
+
 # One family
 python "predict_ancestral_hierarchical_approach.py" \
     --model_path $MODEL_PATH \
     --fasta_files_folder "$BETA_RECONSTRUCT/data/mammalian_validation/2331_NT_AL_AA/" \
     --results_folder $RESULTS_FOLDER \
     --species_list_folder $SPECIES_LIST_FOLDER
+
 # All families (283297 and 5535 are skipped: no outgroup)
 python "predict_ancestral_hierarchical_approach.py" \
     --model_path $MODEL_PATH \

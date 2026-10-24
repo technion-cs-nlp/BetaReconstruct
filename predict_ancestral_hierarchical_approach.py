@@ -198,17 +198,13 @@ def initialize_model(args):
 
     try:
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-        if device.type == "cuda":
-            print("Using GPU")
-            model = ZambaForCausalLM.from_pretrained(args.model_path)
-        else:
-            print("Using CPU")
-            config = AutoConfig.from_pretrained(args.model_path)
-            config.use_mamba_kernels = False
-            model = ZambaForCausalLM.from_pretrained(args.model_path, config=config)
+        print("Using GPU" if device.type == "cuda" else "Using CPU")
+        config = AutoConfig.from_pretrained(args.model_path)
+        config.use_mamba_kernels = False  # the fast Mamba kernels need mamba-ssm and causal-conv1d, which are not in requirements.txt
+        model = ZambaForCausalLM.from_pretrained(args.model_path, config=config)
     except Exception as e:
         exit(f"Failed to load model - {e}, exit")
-
+    
     model.generation_config.pad_token_id = tokenizer.pad_token_id
     model.generation_config.eos_token_id = tokenizer.eos_token_id
     model = model.to(device)

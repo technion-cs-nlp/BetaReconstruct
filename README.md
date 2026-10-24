@@ -175,7 +175,7 @@ export BETA_RECONSTRUCT="<PATH_TO_BETA_RECONSTRUCT>"
 conda activate $BETA_RECONSTRUCT/python_env/
 export HF_DATASETS_CACHE="$BETA_RECONSTRUCT/python_env/cache/"
 export HF_HOME="$BETA_RECONSTRUCT/python_env/cache/"
-export MODEL_PATH="<MAMMALIAN_INTERNAL_NODE_MODEL>"
+export MODEL_PATH="dotan1111/BetaReconstruct_Mammals_Configuration1"
 export RESULTS_FOLDER="$BETA_RECONSTRUCT/results/mammalian/"
 export SPECIES_LIST_FOLDER="$BETA_RECONSTRUCT/species_lists/"
 cd $BETA_RECONSTRUCT

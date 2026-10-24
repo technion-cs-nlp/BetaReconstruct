@@ -6,26 +6,23 @@ Ancestral sequence reconstruction (ASR) is a foundational task in evolutionary b
 ![alt text](https://github.com/technion-cs-nlp/BetaReconstruct/blob/main/outline_image.png)
 Illustration of ASR using BetaReconstruct. (a) The ‘true’ evolutionary dynamics, in which the ancestral sequence “AAMM” evolved along a phylogenetic tree. The leaf sequences are “AAL”, “AYM”, and “ATMMM”. The target internal node, “AAM”, is the ancestor of the ingroup sequences “AAL” and “AYM”, and the sequence "ATMMM" serves as the outgroup. (b) The BetaReconstruct pipeline: (Ⅰ) the unaligned protein sequences are provided as input; (Ⅱ) the sequences are concatenated into a single string, in which the outgroup sequence is followed by a “#” character, ingroup sequences are separated by a “|” character, and a special “<RECONSTRUCT>” token marks the start of the prediction; (Ⅲ) the model processes the input; (Ⅳ) the model generates the ancestral sequence. (c) A typical ASR pipeline, which runs multiple independent tools: (Ⅰ) the unaligned protein sequences are provided as input; (Ⅱ) an alignment program infers an MSA; (Ⅲ) the resulting MSA, including newly introduced gap characters; (Ⅳ) a tree inference program uses the MSA to infer the phylogeny; (Ⅴ) the inferred tree, shown in a Newick format; (Ⅵ) specialized ASR software uses both the MSA and the tree as inputs to perform the reconstruction; (Ⅶ) the final output is the reconstructed ancestral sequence. Joint methods such as BAli-Phy combine steps (Ⅱ)–(Ⅵ).
 
-## Public models 
-We have released six pre-trained models on the HuggingFace Hub, available for public download. These models are categorized into two main groups based on their training objectives and datasets.
-1. **Mammalian Ancestral Reconstruction Models**
+## Public models
+We have released three pre-trained models on the Hugging Face Hub, available for public download. The three models share the same architecture (a hybrid transformer–state-space model, Zamba) and tokenizer, and were first trained on large-scale simulated datasets.
 
-These models were specifically fine-tuned on mammalian protein sequences to optimize accuracy for Ancestral Sequence Reconstruction within mammalian lineages.
-- [BetaReconstruct_Mammals_Configuration1](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration1)
-- [BetaReconstruct_Mammals_Configuration2](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration2)
-- [BetaReconstruct_Mammals_Configuration3](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration3)
+1. **Internal-node reconstruction model**
+ - [BetaReconstruct_Configuration1_internal_nodes](https://huggingface.co/dotan1111/BetaReconstruct_Configuration1_internal_nodes)
 
-2. **General Simulated Data Models**
+This model reconstructs the ancestral sequence at an internal node: the ancestor of the ingroup sequences, given one or more outgroup sequences. The input is each outgroup sequence followed by `#`, then the ingroup sequences separated by `|`, and the `<RECONSTRUCT>` token (for example, `ATMMM#AAL|AYM<RECONSTRUCT>`). It was trained with two outgroup sequences and 10–14 sequences in total. Use it with `align_infer_or_reconstruct.py --reconstruct` (see [Align-Infer-Reconstruct pipeline](#align-infer-reconstruct-pipeline)).
 
-These models were trained on large-scale simulated datasets. They are multi-purpose tools designed to generate:
-+ Multiple Sequence Alignments
-+ Phylogenetic Trees
-+ Ancestral Sequences
+2. **Mammalian model**
+ - [BetaReconstruct_Mammals_Configuration1](https://huggingface.co/dotan1111/BetaReconstruct_Mammals_Configuration1)
 
-Links to models:
+This model was further fine-tuned on mammalian proteins from OrthoMaM (version 12; Allio et al., 2024), with the same internal-node input format. In each training example, the model received eight sequences of one mammalian clade (the ingroup) and two marsupial sequences (the outgroup), and was trained to predict a held-out sequence of the same clade. Use it to reconstruct ancestral mammalian proteins. For families with many species, use `predict_ancestral_hierarchical_approach.py` (see [Mammalian proteins (OrthoMaM)](#mammalian-proteins-orthomam)).
+
+3. **Multi-task model (alignment, tree inference and root reconstruction)**
  - [BetaReconstruct_Configuration1](https://huggingface.co/dotan1111/BetaReconstruct_Configuration1)
- - [BetaReconstruct_Configuration2](https://huggingface.co/dotan1111/BetaReconstruct_Configuration2)
- - [BetaReconstruct_Configuration3](https://huggingface.co/dotan1111/BetaReconstruct_Configuration3)
+
+This model was trained jointly on three tasks, given a set of unaligned sequences: multiple sequence alignment (`--align`), phylogenetic tree inference (`--infer`), and reconstruction of the ancestral sequence at the root (`--reconstruct`). The input is the sequences separated by `|`, followed by the task token (`<ALIGN>`, `<INFER>` or `<RECONSTRUCT>`); no outgroup is given. Use it with `align_infer_or_reconstruct.py`.
 
 **[IMPORTANT] Note on Generalization**: While we have verified the models' ability to generalize to out-of-distribution data (as detailed in the main text), performance is highest when inference is performed on data distributions similar to those used during training.
 
